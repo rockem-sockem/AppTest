@@ -10,7 +10,7 @@ var $ = require('jquery');
 var Layout = require('./Layout');
 var Home = require('./Home');
 var Welcome = require('./Welcome');
-var Content = require('./Content');
+var Content = require('./admin/Content');
 
 var NoMatch = React.createClass({
 	render: function() {
