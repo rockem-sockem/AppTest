@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 
 var BugFilter = React.createClass({
   render: function() {
-    console.log("Rendering BugFilter");
+    // console.log("Rendering BugFilter");
     return (
       <div>
         <h3>Filter</h3>

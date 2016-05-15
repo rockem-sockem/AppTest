@@ -9,6 +9,7 @@ var BugAdd = require('./BugAdd');
 var BugRow = React.createClass({	
   render: function() {
     // console.log("Rendering BugRow:", this.props.bug);
+	// console.log("genre is ", this.props.bug.genres);
     return (
       <tr>
         <td>{this.props.bug._id}</td>
@@ -25,7 +26,7 @@ var BugRow = React.createClass({
 
 var BugTable = React.createClass({
   render: function() {
-    console.log("Rendering bug table, num items:", this.props.bugs.length);
+    // console.log("Rendering bug table, num items:", this.props.bugs.length);
 	var counter = 0;
     var bugRows = this.props.bugs.map(function(bug) {
       return <BugRow key={bug._id} bug={bug} ranking={++counter} />
@@ -56,7 +57,7 @@ var BugList = React.createClass({
     return {bugs: []};
   },
   render: function() {
-    console.log("Rendering bug list, num items:", this.state.bugs.length);
+    // console.log("Rendering bug list, num items:", this.state.bugs.length);
     return (
       <div>
         <h1>Bug Tracker</h1>
@@ -80,7 +81,7 @@ var BugList = React.createClass({
   },
 
   addBug: function(bug) {
-    console.log("Adding bug:", bug);
+    // console.log("Adding bug:", bug);
     $.ajax({
       type: 'POST', url: '/api/bugs', contentType: 'application/json',
       data: JSON.stringify(bug),
