@@ -34630,7 +34630,7 @@ var BugAdd = React.createClass({
   displayName: 'BugAdd',
 
   render: function () {
-    console.log("Rendering BugAdd");
+    // console.log("Rendering BugAdd");
     return React.createElement(
       'div',
       null,
@@ -34667,7 +34667,7 @@ var BugFilter = React.createClass({
   displayName: 'BugFilter',
 
   render: function () {
-    console.log("Rendering BugFilter");
+    // console.log("Rendering BugFilter");
     return React.createElement(
       'div',
       null,
@@ -34720,6 +34720,31 @@ var BugRow = React.createClass({
 
   render: function () {
     // console.log("Rendering BugRow:", this.props.bug);
+    // console.log("genre is ", this.props.bug.genres);
+    var genres = "";
+    var length = this.props.bug.genres.length;
+    for (var i = 0; i < length; i++) {
+      var cur = this.props.bug.genres[i];
+
+      if (i < length - 1) {
+        genres += cur + ", ";
+      } else {
+        genres += cur;
+      }
+    }
+
+    var devices = "";
+    length = this.props.bug.devices.length;
+    for (var i = 0; i < length; i++) {
+      var cur = this.props.bug.devices[i];
+
+      if (i < length - 1) {
+        devices += cur + ", ";
+      } else {
+        devices += cur;
+      }
+    }
+
     return React.createElement(
       'tr',
       null,
@@ -34751,12 +34776,12 @@ var BugRow = React.createClass({
       React.createElement(
         'td',
         null,
-        this.props.bug.genres
+        genres
       ),
       React.createElement(
         'td',
         null,
-        this.props.bug.devices
+        devices
       )
     );
   }
@@ -34766,7 +34791,7 @@ var BugTable = React.createClass({
   displayName: 'BugTable',
 
   render: function () {
-    console.log("Rendering bug table, num items:", this.props.bugs.length);
+    // console.log("Rendering bug table, num items:", this.props.bugs.length);
     var counter = 0;
     var bugRows = this.props.bugs.map(function (bug) {
       return React.createElement(BugRow, { key: bug._id, bug: bug, ranking: ++counter });
@@ -34833,7 +34858,7 @@ var BugList = React.createClass({
     return { bugs: [] };
   },
   render: function () {
-    console.log("Rendering bug list, num items:", this.state.bugs.length);
+    // console.log("Rendering bug list, num items:", this.state.bugs.length);
     return React.createElement(
       'div',
       null,
@@ -34861,7 +34886,7 @@ var BugList = React.createClass({
   },
 
   addBug: function (bug) {
-    console.log("Adding bug:", bug);
+    // console.log("Adding bug:", bug);
     $.ajax({
       type: 'POST', url: '/api/bugs', contentType: 'application/json',
       data: JSON.stringify(bug),
@@ -34894,7 +34919,7 @@ var $ = require('jquery');
 var Layout = require('./Layout');
 var Home = require('./Home');
 var Welcome = require('./Welcome');
-var Content = require('./Content');
+var Content = require('./admin/Content');
 
 var NoMatch = React.createClass({
 	displayName: 'NoMatch',
@@ -34983,39 +35008,27 @@ ReactDOM.render(React.createElement(
 	React.createElement(Route, { path: '*', component: NoMatch })
 ), document.getElementById('main_container'));
 
-},{"./Content":234,"./Home":235,"./Layout":236,"./Welcome":238,"jquery":2,"react":229,"react-dom":3,"react-router":33}],234:[function(require,module,exports){
-var React = require('react');
+},{"./Home":235,"./Layout":236,"./Welcome":238,"./admin/Content":239,"jquery":2,"react":229,"react-dom":3,"react-router":33}],234:[function(require,module,exports){
+var g_username = "";
+var g_role = "";
 
-// Testing
-var Content = React.createClass({
-	displayName: 'Content',
-
-	render: function () {
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'h1',
-				null,
-				'Content'
-			),
-			React.createElement(
-				'h2',
-				null,
-				'Only for Admins'
-			),
-			React.createElement(
-				'p',
-				null,
-				' Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
-			)
-		);
+module.exports = {
+	setUsername(username) {
+		g_username = username;
+	},
+	setRole(role) {
+		g_role = role;
+	},
+	getUsername() {
+		return g_username;
+	},
+	getRole() {
+		return g_role;
 	}
-});
 
-module.exports = Content;
+};
 
-},{"react":229}],235:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 var React = require('react');
 
 var Signup = require('./Signup');
@@ -35071,7 +35084,7 @@ var Layout = React.createClass({
 
 module.exports = Layout;
 
-},{"./navbar/Navbar":240,"react":229}],237:[function(require,module,exports){
+},{"./navbar/Navbar":242,"react":229}],237:[function(require,module,exports){
 var React = require('react');
 var $ = require('jquery');
 
@@ -35187,7 +35200,205 @@ module.exports = Welcome;
 
 },{"./API/BugList":232,"react":229}],239:[function(require,module,exports){
 var React = require('react');
+
+var UserList = require('./UserList');
+
+// Testing
+var Content = React.createClass({
+	displayName: 'Content',
+
+	render: function () {
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'h1',
+				null,
+				'Content'
+			),
+			React.createElement(
+				'h2',
+				null,
+				'Only for Admins'
+			),
+			React.createElement(
+				'p',
+				null,
+				' Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
+			),
+			React.createElement('br', null),
+			React.createElement(UserList, null)
+		);
+	}
+});
+
+module.exports = Content;
+
+},{"./UserList":240,"react":229}],240:[function(require,module,exports){
+var React = require('react');
 var $ = require('jquery');
+
+var Auth = require('../Auth.js');
+
+var UserList = React.createClass({
+	displayName: 'UserList',
+
+	render: function () {
+		// console.log("In userlist = ", Auth.getUsername());
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'h1',
+				null,
+				'User Data'
+			),
+			React.createElement(
+				'button',
+				{ onClick: this.handleRefresh },
+				'Refresh'
+			),
+			React.createElement('br', null),
+			React.createElement(UserTable, { users: this.state.users })
+		);
+	},
+	getInitialState: function () {
+		return { users: [] };
+	},
+	componentDidMount: function () {
+		this.loadData({});
+	},
+
+	loadData: function (filter) {
+		$.ajax('/api/users', { data: filter }).done(function (data) {
+			this.setState({ users: data });
+		}.bind(this));
+	},
+	handleRefresh: function (e) {
+		e.preventDefault();
+		this.loadData({});
+	}
+});
+
+var UserTable = React.createClass({
+	displayName: 'UserTable',
+
+	render: function () {
+		var userRows = this.props.users.map(function (user) {
+			return React.createElement(UserRow, { key: user._id, user: user });
+		});
+
+		return React.createElement(
+			'table',
+			null,
+			React.createElement(
+				'thead',
+				null,
+				React.createElement(
+					'tr',
+					null,
+					React.createElement(
+						'th',
+						null,
+						'Username'
+					),
+					React.createElement(
+						'th',
+						null,
+						'Role'
+					),
+					React.createElement(
+						'th',
+						null,
+						'Switch'
+					)
+				)
+			),
+			React.createElement(
+				'tbody',
+				null,
+				userRows
+			)
+		);
+	}
+});
+
+var UserRow = React.createClass({
+	displayName: 'UserRow',
+
+	render: function () {
+		var td1 = this.state.username != Auth.getUsername() ? this.state.username : "";
+		var td2 = this.state.username != Auth.getUsername() ? this.state.role : "";
+		var td3 = this.state.username != Auth.getUsername() ? React.createElement('button', { onClick: this.handleSwitch }) : "";
+		return React.createElement(
+			'tr',
+			null,
+			React.createElement(
+				'td',
+				null,
+				td1
+			),
+			React.createElement(
+				'td',
+				null,
+				td2
+			),
+			React.createElement(
+				'td',
+				null,
+				td3
+			)
+		);
+	},
+	getInitialState: function () {
+		return {
+			username: this.props.user.username,
+			role: this.props.user.role
+		};
+	},
+
+	handleSwitch: function (e) {
+		e.preventDefault();
+		var switchedRole = this.switchRole(this.state.role);
+		var user = {
+			username: this.state.username,
+			role: switchedRole
+		};
+
+		$.ajax({
+			type: 'POST',
+			url: '/api/switchRole',
+			contentType: 'application/json',
+			data: JSON.stringify(user),
+			success: function (data) {
+				this.setState({
+					role: switchedRole
+				});
+			}.bind(this),
+			error: function (xhr, status, err) {
+				console.log("(handleLogin)Callback error! ", err);
+			}
+		});
+	},
+	switchRole: function (role) {
+		var result;
+
+		if (role == "admin") {
+			result = "user";
+		} else {
+			result = "admin";
+		}
+		return result;
+	}
+});
+
+module.exports = UserList;
+
+},{"../Auth.js":234,"jquery":2,"react":229}],241:[function(require,module,exports){
+var React = require('react');
+var $ = require('jquery');
+
+var Auth = require('../Auth.js');
 
 // Represents the user login class, which is
 // a child component of the Navbar class.
@@ -35290,6 +35501,8 @@ var Login = React.createClass({
 						logged: true,
 						username: data.username
 					});
+					Auth.setUsername(data.username);
+					// console.log("In login = ", Auth.getUsername());
 					// Sending the role to the parent(Navbar) component
 					this.props.getRole(data.role);
 					// Redirecting to the welcome page after login
@@ -35320,6 +35533,8 @@ var Login = React.createClass({
 					logged: false,
 					username: ""
 				});
+				Auth.setUsername("");
+				// console.log("logout = ", Auth.getUsername());
 				// Sending role to change role state in Navbar
 				this.props.getRole(null);
 				// Redirect to home page
@@ -35345,6 +35560,7 @@ var Login = React.createClass({
 						logged: true,
 						username: session.username
 					});
+					Auth.setUsername(session.username);
 					this.props.getRole(session.role);
 					// Intended use for forcing an update to Navbar
 					// which will update the Tabs class components.
@@ -35360,7 +35576,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"jquery":2,"react":229}],240:[function(require,module,exports){
+},{"../Auth.js":234,"jquery":2,"react":229}],242:[function(require,module,exports){
 var React = require('react');
 var $ = require('jquery');
 
@@ -35407,7 +35623,7 @@ var Navbar = React.createClass({
 
 module.exports = Navbar;
 
-},{"./Login":239,"./Tabs":241,"jquery":2,"react":229}],241:[function(require,module,exports){
+},{"./Login":241,"./Tabs":243,"jquery":2,"react":229}],243:[function(require,module,exports){
 var React = require('react');
 var Link = require('react-router').Link;
 

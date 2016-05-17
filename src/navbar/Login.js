@@ -1,6 +1,8 @@
 var React = require('react');
 var $ = require('jquery');
 
+var Auth = require('../Auth.js');
+
 // Represents the user login class, which is 
 // a child component of the Navbar class.
 // Passed properties: {getRole(res)}
@@ -91,6 +93,8 @@ var Login = React.createClass({
 						logged: true,
 						username: data.username
 					});
+					Auth.setUsername(data.username);
+					// console.log("In login = ", Auth.getUsername());
 					// Sending the role to the parent(Navbar) component
 					this.props.getRole(data.role);
 					// Redirecting to the welcome page after login
@@ -121,6 +125,8 @@ var Login = React.createClass({
 					logged: false,
 					username: ""
 				});
+				Auth.setUsername("");
+				// console.log("logout = ", Auth.getUsername());
 				// Sending role to change role state in Navbar
 				this.props.getRole(null);
 				// Redirect to home page
@@ -146,6 +152,7 @@ var Login = React.createClass({
 						logged: true,
 						username: session.username
 					});
+					Auth.setUsername(session.username);
 					this.props.getRole(session.role);
 					// Intended use for forcing an update to Navbar 
 					// which will update the Tabs class components.

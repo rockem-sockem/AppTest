@@ -49,7 +49,7 @@ module.exports = {
 		}
 
 		options.path = datapath;
-		console.log(options);
+		// console.log(options);
 		req = https.request(options, function(res) {
 			var responseBody =""; 
 			console.log("> Response from server started."); 
