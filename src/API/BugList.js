@@ -10,17 +10,41 @@ var BugRow = React.createClass({
   render: function() {
     // console.log("Rendering BugRow:", this.props.bug);
 	// console.log("genre is ", this.props.bug.genres);
-    return (
-      <tr>
-        <td>{this.props.bug._id}</td>
-		<td>{this.props.ranking}</td>
-        <td>{this.props.bug.title}</td>
-        <td>{this.props.bug.developer}</td>
-        <td>{this.props.bug.price}</td>
-        <td>{this.props.bug.genres}</td>
-        <td>{this.props.bug.devices}</td>
-      </tr>
-    )
+		var genres = "";
+		var length = this.props.bug.genres.length;
+		for(var i=0; i < length; i++) {
+			var cur = this.props.bug.genres[i];
+			
+			if(i < length-1) {
+				genres += cur + ", ";
+			} else {
+				genres += cur;
+			}
+		}
+		
+		var devices = "";
+		length = this.props.bug.devices.length;
+		for(var i=0; i < length; i++) {
+			var cur = this.props.bug.devices[i];
+			
+			if(i < length-1) {
+				devices += cur + ", ";
+			} else {
+				devices += cur;
+			}
+		}
+	
+		return (
+			<tr>
+				<td>{this.props.bug._id}</td>
+				<td>{this.props.ranking}</td>
+				<td>{this.props.bug.title}</td>
+				<td>{this.props.bug.developer}</td>
+				<td>{this.props.bug.price}</td>
+				<td>{genres}</td>
+				<td>{devices}</td>
+			</tr>
+		)
   }
 });
 
