@@ -109,6 +109,54 @@ function modifyDataAndUpdate() {
 				// console.log("genre > ", doc.genres[i]);
 				var cat;
 				switch(doc.genres[i]) {
+					case 0:
+						cat = "All"; break;
+					case 6000:
+						cat = "Business"; break;
+					case 6001:
+						cat = "Weather"; break;
+					case 6002:
+						cat = "Utilities"; break;
+					case 6003:
+						cat = "Travel"; break;
+					case 6004:
+						cat = "Sports"; break;
+					case 6005:
+						cat = "Social Networking"; break;
+					case 6006:
+						cat = "Reference"; break;
+					case 6007:
+						cat = "Productivity"; break;
+					case 6008:
+						cat = "Photo & Video"; break;
+					case 6009:
+						cat = "News"; break;
+					case 6010: 
+						cat = "Navigation"; break;
+					case 6011:
+						cat = "Music"; break;
+					case 6012:
+						cat = "Lifestyle"; break;
+					case 6013:
+						cat = "Health & Fitness"; break;
+					case 6014:
+						cat = "Games"; break;
+					case 6015:
+						cat = "Finance"; break;
+					case 6016:
+						cat = "Entertainment"; break;
+					case 6017:
+						cat = "Education"; break;
+					case 6018:
+						cat = "Books"; break;
+					case 6020:
+						cat = "Medical"; break;
+					case 6021:
+						cat = "Newsstand"; break;
+					case 6022:
+						cat = "Catalogs"; break;
+					case 6023:
+						cat = "Food & Drink"; break;
 					case 7001:
 						cat = "Action"; break;
 					case 7002:
