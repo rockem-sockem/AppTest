@@ -164,9 +164,9 @@ app.get('/api/bugs', function(req,res){
 	// console.log("Query string", req.query);
 	var filter = {};
 	if(req.query.title)
-		filter.title = req.query.title;
+		filter.title = {"$in": [new RegExp(req.query.title,"i")]};
 	if(req.query.developer)
-		filter.developer = req.query.developer;
+		filter.developer = {"$in" : [new RegExp(req.query.developer,"i")]};
 
 	db.collection(curColl).find(filter).toArray(function(err,docs) {
 		res.json(docs); 
